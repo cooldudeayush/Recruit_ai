@@ -25,6 +25,7 @@ export default function Interview() {
   const inputRef = useRef(null)
   const qaLogRef = useRef([])
   const stageRef = useRef('intro')
+  const hasInitializedRef = useRef(false)
 
   useEffect(() => {
     const t = setInterval(() => setElapsed(Math.floor((Date.now() - startTime) / 1000)), 1000)
@@ -139,12 +140,19 @@ export default function Interview() {
   }, [currentSession, state, startTime, addSession, setViewingReport, setScreen])
 
   useEffect(() => {
+    if (hasInitializedRef.current) return
+    hasInitializedRef.current = true
+
     pushMsg('sys', `Session started for ${currentSession.role.title} at ${currentSession.difficulty} difficulty.`)
     const qs = getStageQs('intro')
     setQQueue(qs.slice(1))
-    if (qs.length) setTimeout(() => askQuestion(qs[0]), 500)
-    else pushMsg('sys', 'No questions found for this role and stage. Add questions in Admin to continue.')
-  }, [])
+
+    if (qs.length) {
+      setTimeout(() => askQuestion(qs[0]), 500)
+    } else {
+      pushMsg('sys', 'No questions found for this role and stage. Add questions in Admin to continue.')
+    }
+  }, [askQuestion, currentSession, getStageQs, pushMsg])
 
   const submit = useCallback(async () => {
     const text = answer.trim()
