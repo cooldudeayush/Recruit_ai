@@ -6,9 +6,10 @@ const Ctx = createContext(null)
 
 export function AppProvider({ children }) {
   const [state, setState] = useState(() => loadState())
-  const [screen, setScreen] = useState('login') // login | admin | interviewer | cand-setup | interview | report
+  const [screen, setScreen] = useState('login') // login | admin-gate | admin | interviewer | cand-setup | interview | report
   const [currentSession, setCurrentSession] = useState(null)
   const [viewingReport, setViewingReport] = useState(null)
+  const [adminUnlocked, setAdminUnlocked] = useState(false)
 
   const update = useCallback((updater) => {
     setState(prev => {
@@ -27,7 +28,10 @@ export function AppProvider({ children }) {
       state, update, addSession,
       screen, setScreen,
       currentSession, setCurrentSession,
-      viewingReport, setViewingReport
+      viewingReport, setViewingReport,
+      adminUnlocked,
+      unlockAdmin: () => setAdminUnlocked(true),
+      lockAdmin: () => setAdminUnlocked(false)
     }}>
       {children}
     </Ctx.Provider>
