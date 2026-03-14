@@ -163,6 +163,46 @@ recruitai/
 
 ---
 
+## 🔒 Why Ollama (Local AI)?
+
+| Feature | Cloud API | RecruitAI (Ollama) |
+|---|---|---|
+| Data privacy | ❌ Sent to cloud | ✅ Stays on device |
+| API cost | ❌ Pay per call | ✅ Completely free |
+| Internet required | ❌ Yes | ✅ Works offline |
+| Model control | ❌ Fixed by provider | ✅ Swap any model |
+
+---
+
+## 🚀 Future Scope
+
+- [ ] Voice input support via Web Speech API
+- [ ] Multi-language interview support
+- [ ] Backend database for enterprise multi-user deployment
+- [ ] Email report delivery to HR teams
+- [ ] Calendar integration for scheduling sessions
+- [ ] Interviewer effectiveness scoring
+- [ ] Custom scoring rubric per company
+
+---
+
+## 👨‍💻 Team
+
+> Built with ❤️ for **Hack & Forge Hackathon**
+
+| Role | Name |
+|---|---|
+| Developer | _Add your name_ |
+| Developer | _Add teammate name_ |
+
+---
+
+## 🤝 Contributing
+
+Pull requests are welcome. For major changes please open an issue first.
+
+---
+
 ## License
 
 MIT — free to use, modify, and distribute.
