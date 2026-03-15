@@ -216,7 +216,7 @@ recruitai/
 |---|---|
 | Developer | Ayush |
 | GitHub | [cooldudeayush](https://github.com/cooldudeayush) |
-| Hackathon | Hack & Forge 2025 |
+| Hackathon | Hack & Forge 2026 |
 | Track | Enterprise AI |
 
 ---
