@@ -1,13 +1,18 @@
 const MODEL = import.meta.env.VITE_OLLAMA_MODEL || 'deepseek-r1:8b'
 const API_URL = import.meta.env.VITE_OLLAMA_API_URL || 'http://localhost:11434/api/generate'
-const RAG_API_URL = import.meta.env.VITE_RAG_API_URL || ''
+const RAG_API_URL = import.meta.env.VITE_RAG_API_URL || 'http://localhost:3030'
 
 async function postJson(url, body) {
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  })
+  let res
+  try {
+    res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    })
+  } catch (error) {
+    throw new Error('Could not reach the RecruitAI RAG server on localhost:3030. Start it with "npm run server" and try again.')
+  }
 
   const data = await res.json().catch(() => null)
   if (!res.ok) {
