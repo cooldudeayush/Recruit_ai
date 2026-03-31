@@ -5,6 +5,15 @@ import { Badge, EmptyState, Tabs } from '../components/UI.jsx'
 import { createRagInterviewSession } from '../utils/ai.js'
 import { extractTextFromFile, parseResumeFile } from '../utils/resume.js'
 
+function canFallbackFromRag(error) {
+  const message = String(error?.message || '').toLowerCase()
+  return (
+    message.includes('could not reach the recruitai rag server') ||
+    message.includes('failed to fetch') ||
+    message.includes('networkerror')
+  )
+}
+
 export default function Interviewer() {
   const [tab, setTab] = useState('launch')
 
@@ -91,15 +100,23 @@ function LaunchTab() {
     const role = state.roles.find((r) => r.id === form.roleId)
     setLaunching(true)
     try {
-      const ragSessionId = await createRagInterviewSession({
-        candidateName: form.name,
-        role,
-        resumeText: form.resumeText,
-        resumeFileName: form.resumeFileName,
-        resumeProfile: form.resumeProfile,
-        jobDescriptionText: form.jdText,
-        jobDescriptionFileName: form.jdFileName
-      })
+      let ragSessionId = ''
+
+      try {
+        ragSessionId = await createRagInterviewSession({
+          candidateName: form.name,
+          role,
+          resumeText: form.resumeText,
+          resumeFileName: form.resumeFileName,
+          resumeProfile: form.resumeProfile,
+          jobDescriptionText: form.jdText,
+          jobDescriptionFileName: form.jdFileName
+        })
+      } catch (error) {
+        if (!canFallbackFromRag(error)) throw error
+        alert('RAG server is not reachable right now, so the interview will continue in fallback mode using the uploaded resume and role context.')
+      }
+
       setCurrentSession({ ...form, role, ragSessionId, sessionSource: 'interviewer' })
       setScreen('interview')
     } catch (error) {
